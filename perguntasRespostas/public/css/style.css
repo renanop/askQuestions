@@ -1,0 +1,24 @@
+body {
+    background-color: #eceff1;
+}
+
+h1 {
+    margin-left: 2vh;
+}
+
+.class-body{
+    margin-left: 2vh;
+}
+
+#ask-form {
+    margin-top: 5vh;
+}
+
+#ask-button {
+    margin-bottom: 2vh;
+}
+
+#navbar-hyperlink {
+    color: whitesmoke;
+}
+
