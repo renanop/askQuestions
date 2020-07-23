@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection  = require("./database/database");
 const questionModel = require("./database/Questions");
+const answerModel = require("./database/Answers");
 
 
 connection
@@ -26,7 +27,9 @@ app.use(bodyParser.json());
 
 //Creating routes! -> model.findAll is used for receiving the data from the DB. Then (promiss) in order to send it to the front end.
 app.get("/", (req, res) => {
-    questionModel.findAll({raw: true}).then(questions => {
+    questionModel.findAll({raw: true, order: [
+        ['id', 'DESC'] // DESC = Descending, ASC = Ascending
+    ]}).then(questions => {
         res.render("home",{
             questions: questions
         });
@@ -46,6 +49,39 @@ app.post("/savequestion", (req, res) => {
         description: description,
     }).then(() => {
         res.redirect('/');
+    });
+});
+
+// Creating a route to each question
+app.get("/question/:id", (req, res) => {
+    var id = req.params.id;
+    questionModel.findOne({
+        where: {id:id}  //Finding the question on the database by ID.
+    }).then(question => {
+        if (question != undefined) {
+            answerModel.findAll({
+                where: {questionId: question.id}
+            }).then(answers => {
+                res.render('question', {
+                    question: question,
+                    answers: answers   // exporting question to be used on that view.
+                });
+            });
+            
+        } else {
+            res.redirect('/');    // If no question is found, then go back to the home page.
+        }
+    })
+})
+
+app.post("/answer", (req, res) => {
+    var answerContent = req.body.answerContent;
+    var questionId = req.body.questionId;
+    answerModel.create({
+        body: answerContent,
+        questionId: questionId
+    }).then(() => {
+        res.redirect('/question/' + questionId);
     });
 });
 

@@ -9,17 +9,17 @@
         <hr>
         <a href='/ask' class="btn btn-primary">Ask questions!</a>
         <br>
-        
+
         <% questions.forEach(questions => { %>
-            <br>
-            <div class="card">
-                <div class="card-body">
-                    <h3><%= questions.title %></h3>
-                </div>
-                <div class = "card-footer">
-                    <button class="btn btn-primary">Answer!</button>
-                </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h3><%= questions.title %></h3>
             </div>
+            <div class="card-footer">
+                <a href="/question/<%=questions.id%>"><button class="btn btn-primary">Answer!</button></a>
+            </div>
+        </div>
         <% }) %>
 
     </div>

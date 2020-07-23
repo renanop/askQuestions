@@ -1,3 +1,4 @@
+//Importing sequelize and the connection with the database
 const Sequelize = require('sequelize');
 const connection = require('./database');
 
@@ -14,7 +15,7 @@ const Questions = connection.define('questions', {
 });
 
 
-// Writing the data on the SQL table
+// Creating the table in the database
 Questions.sync({force: false}).then(() => {});
 
 module.exports = Questions;
